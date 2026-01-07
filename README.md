@@ -1,8 +1,10 @@
 # Job Preference Matching System
+<img width="1920" height="1080" alt="Screenshot 2026-01-07 165030" src="https://github.com/user-attachments/assets/5540898f-f847-4e5c-a4a2-1b69203226d3" />
 
 ## Overview
 
 This project implements a **Job Preference Matching System** where candidates can create profiles with preferences, jobs can be scraped from external platforms, and candidates are matched to jobs based on skills, roles, and industries.
+<img width="1920" height="1080" alt="Screenshot 2026-01-07 164710" src="https://github.com/user-attachments/assets/f1393e28-8638-4b32-ac53-ecb741d4dc9c" />
 
 It includes:
 
@@ -70,6 +72,7 @@ Server will run at `http://localhost:3000`.
 ### Candidate APIs
 
 #### Create a Candidate
+<img width="1920" height="1080" alt="Screenshot 2026-01-07 164725" src="https://github.com/user-attachments/assets/851e8978-d85e-4b71-b90d-3594d70cc3cf" />
 
 * **Endpoint:** `POST /api/candidates`
 * **Body:**
@@ -132,6 +135,7 @@ Server will run at `http://localhost:3000`.
 ---
 
 ### Job APIs
+<img width="1920" height="1080" alt="Screenshot 2026-01-07 164704" src="https://github.com/user-attachments/assets/cc92e4b4-ae8b-44bf-9f8c-c120423ae935" />
 
 #### Create a Job
 
@@ -187,6 +191,7 @@ Server will run at `http://localhost:3000`.
 ---
 
 ## Scraping Approach
+<img width="1920" height="1080" alt="Screenshot 2026-01-07 164732" src="https://github.com/user-attachments/assets/a654bb1d-ef00-465e-9a5f-4f4d1156f79d" />
 
 * Axios fetches the HTML page, Cheerio parses it.
 * Extracted fields include title, company, location, remote flag, description.
@@ -195,6 +200,8 @@ Server will run at `http://localhost:3000`.
 ---
 
 ## Matching Logic
+<img width="1920" height="1080" alt="Screenshot 2026-01-07 164905" src="https://github.com/user-attachments/assets/81ee2db3-633f-4d35-905a-fb9377b55a40" />
+<img width="1920" height="1080" alt="Screenshot 2026-01-07 164922" src="https://github.com/user-attachments/assets/045cad2f-1c77-4585-876a-d04867a81770" />
 
 * Rule-based, keyword matching using candidate's skills, roles, industries against job title, company, skills, industries.
 * Returns jobs that match at least one keyword.
@@ -208,6 +215,7 @@ Server will run at `http://localhost:3000`.
 * Job type and ranking can be enhanced.
 
 ---
+<img width="1920" height="1080" alt="Screenshot 2026-01-07 164944" src="https://github.com/user-attachments/assets/e53af4b5-8776-4b82-a2f1-4c3c6980e459" />
 
 ## Sample Output
 
