@@ -135,7 +135,7 @@ function CandidateDialog({ candidate }: { candidate: any }) {
           View
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl">
+      <DialogContent className="w-[90vw] max-w-[1200px]">
         <DialogHeader>
           <DialogTitle>{candidate.name}</DialogTitle>
         </DialogHeader>
@@ -213,7 +213,7 @@ function JobsTableMini({ jobs, loading }: { jobs: any[]; loading: boolean }) {
       </TableHeader>
 
       <TableBody>
-        {jobs.map((job) => (
+        {jobs.filter((_,i)=>i<14).map((job) => (
           <TableRow key={job.id}>
             <TableCell>{job.title}</TableCell>
             <TableCell>{job.companyName}</TableCell>
