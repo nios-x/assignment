@@ -1,0 +1,133 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  INTERNSHIP
+  CONTRACT
+}
+
+// 1. Candidate Schema 
+model Candidate{
+  id                  String   @id @default(uuid())
+  name                String
+  email               String   @unique
+  phone               String?
+  resumeUrl           String?
+  portfolioUrl        String?
+  githubUrl           String?
+  linkedinUrl         String?
+  experience          Int        @default(0)
+  expectedSalary      Int?
+  noticePeriodDays    Int?
+  activelyLooking     Boolean   @default(true)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  industries          CandidateIndustry[] 
+  skills              CandidateSkill[]
+  roles               CandidateRole[]
+  addressLine         String 
+  district            String
+  state               String 
+  country             String
+  jobtype             JobType
+}
+
+
+// 1.2 Industry Schema
+model Industry{
+  id                  String   @id @default(uuid()) 
+  name                String @unique
+  candidates          CandidateIndustry[]
+  jobIndustry         JobIndustry[]
+}
+// 1.3 Industry Relationship with Candidates
+model CandidateIndustry{
+  candidateId String 
+  industryId  String 
+  candidate   Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  industry   Industry  @relation(fields: [industryId], references: [id], onDelete: Cascade)
+  @@id([candidateId, industryId])
+}
+
+
+//1.4 Skill Schema
+model Skill{
+  id                  String   @id @default(uuid())
+  name                String   @unique
+  candidates          CandidateSkill[]
+  job                 JobSkill[]
+}
+//1.5 Skill Relationship with Candidates
+model CandidateSkill{
+  candidateId String 
+  skillId  String 
+  candidate   Candidate @relation(fields: [candidateId], references: [id],  onDelete: Cascade)
+  skill   Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  @@id([candidateId, skillId])
+}
+
+
+//1.6 Role Schema
+model Role{
+  id                  String   @id @default(uuid())
+  name                String   @unique
+  candidate           CandidateRole[]
+}
+//1.7 Role Relationship with Candidates
+model CandidateRole{
+  candidateid           String 
+  roleid                String 
+  roles                 Role  @relation( fields: [roleid], references: [id],  onDelete: Cascade) 
+  candidate             Candidate  @relation(fields: [candidateid], references: [id], onDelete: Cascade) 
+  @@id([candidateid,roleid])
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+//2 Job Schema 
+model Job {
+  id               String          @id @default(uuid())
+  title            String
+  companyName      String
+  description      String
+  experienceMin    Int?
+  experienceMax    Int?
+  location         String
+  isRemote         Boolean         @default(false)
+  source           String       
+  sourceJobId      String       
+  jobUrl           String
+  industries       JobIndustry[]
+  skills           JobSkill[]
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  @@unique([source, sourceJobId])  
+}
+
+model JobIndustry {
+  jobId      String
+  industryId String
+  job        Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  industry   Industry  @relation(fields: [industryId], references: [id], onDelete: Cascade)
+  @@id([jobId, industryId])
+}
+
+model JobSkill {
+  jobId   String
+  skillId String
+  job     Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  skill   Skill  @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  @@id([jobId, skillId])
+}
