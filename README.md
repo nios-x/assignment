@@ -31,8 +31,9 @@ It includes:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/job-preference-matching.git
-cd job-preference-matching
+git clone https://github.com/nios-x/assignment.git
+cd assignment
+cd backend
 ```
 
 ### 2. Install Dependencies
