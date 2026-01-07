@@ -11,7 +11,7 @@ const route_2 = __importDefault(require("./api/jobrole/route"));
 const route_3 = __importDefault(require("./api/crawler/route"));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
-const PATH = path_1.default.join(__dirname.split("\\").filter(e => e != "src").join("\\"), "dist/dist");
+const PATH = path_1.default.join(__dirname.split("\\").filter(e => e != "src").join("\\"), "dist");
 // Serve static frontend files
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());

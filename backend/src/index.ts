@@ -7,7 +7,7 @@ import crawlerRouter from "./api/crawler/route"
 
 const app = express()
 const PORT = process.env.PORT || 3000
-const PATH = path.join(__dirname.split("\\").filter(e=>e!="src").join("\\"), "dist/dist")
+const PATH = path.join(__dirname.split("\\").filter(e=>e!="src").join("\\"), "dist")
 // Serve static frontend files
 app.use(cors())
 app.use(express.json())
