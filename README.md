@@ -67,67 +67,145 @@ Server will run at `http://localhost:3000`.
 
 ## API Endpoints
 
-### Candidates
+### Candidate APIs
 
-* `POST /api/candidates` → Create a candidate
-* `GET /api/candidates` → List all candidates
-* `GET /api/candidates/:id/jobs` → View matched jobs
-* `GET /api/candidates/:id/recommended` → View recommended jobs
+#### Create a Candidate
 
-### Jobs
+* **Endpoint:** `POST /api/candidates`
+* **Body:**
 
-* `POST /api/jobs` → Add a job manually
-* `GET /api/jobs` → Get all jobs
-* `DELETE /api/jobs/:id` → Delete a job
+```json
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "phone": "1234567890",
+  "resumeUrl": "http://example.com/resume.pdf",
+  "portfolioUrl": "http://portfolio.com",
+  "githubUrl": "http://github.com/johndoe",
+  "linkedinUrl": "http://linkedin.com/in/johndoe",
+  "experience": 3,
+  "expectedSalary": 50000,
+  "noticePeriodDays": 30,
+  "activelyLooking": true,
+  "addressLine": "123 Street",
+  "district": "City",
+  "state": "State",
+  "country": "Country",
+  "jobtype": "FULL_TIME",
+  "skills": ["React", "Node.js"],
+  "industries": ["IT"],
+  "roles": ["Full Stack Developer"]
+}
+```
 
-### Job Scraping
+* **Response:** Created candidate object
 
-* `POST /api/submit-url` → Submit a job URL to scrape (currently supports **WeWorkRemotely**)
+#### Get All Candidates
+
+* **Endpoint:** `GET /api/candidates`
+* **Response:** List of all candidates with skills, roles, industries
+
+#### Get Candidate Matched Jobs
+
+* **Endpoint:** `GET /api/candidates/:id/jobs`
+* **Response:**
+
+```json
+{
+  "candidate": { /* candidate info */ },
+  "jobs": [ /* matched jobs */ ]
+}
+```
+
+#### Get Candidate Recommended Jobs (Keyword-based)
+
+* **Endpoint:** `GET /api/candidates/:id/recommended`
+* **Response:**
+
+```json
+{
+  "candidate": { /* candidate info */ },
+  "matchedJobs": [ /* recommended jobs */ ]
+}
+```
+
+---
+
+### Job APIs
+
+#### Create a Job
+
+* **Endpoint:** `POST /api/jobs`
+* **Body:**
+
+```json
+{
+  "title": "Full Stack Developer",
+  "companyName": "TechCorp",
+  "description": "Job description here",
+  "experienceMin": 2,
+  "experienceMax": 5,
+  "location": "Remote",
+  "isRemote": true,
+  "source": "WEWORKREMOTELY",
+  "sourceJobId": "12345",
+  "jobUrl": "https://weworkremotely.com/jobs/12345",
+  "skills": ["React", "Node.js"],
+  "industries": ["IT"]
+}
+```
+
+* **Response:** Created job object
+
+#### Get All Jobs
+
+* **Endpoint:** `GET /api/jobs`
+* **Response:** List of all jobs
+
+#### Delete a Job
+
+* **Endpoint:** `DELETE /api/jobs/:id`
+* **Response:** Message confirming deletion
+
+---
+
+### Job Scraping API
+
+#### Submit Job URL to Scrape
+
+* **Endpoint:** `POST /api/submit-url`
+* **Body:**
+
+```json
+{
+  "url": "https://weworkremotely.com/remote-jobs/12345"
+}
+```
+
+* **Response:** Scraped job details and stored in database
 
 ---
 
 ## Scraping Approach
 
-* Scraping is implemented using **Axios** to fetch the page and **Cheerio** to parse HTML.
-* Extracted fields:
-
-  * Job title
-  * Company name
-  * Location
-  * Remote option
-  * Job description
-* Ethical scraping is ensured: limited crawling, only specific pages, with proper headers.
+* Axios fetches the HTML page, Cheerio parses it.
+* Extracted fields include title, company, location, remote flag, description.
+* Ethical scraping: limited scope, proper headers, no aggressive crawling.
 
 ---
 
 ## Matching Logic
 
-* Each candidate has skills, roles, and preferred industries.
-* Jobs have required skills and industries.
-* Matching is **rule-based**:
-
-  1. Collect candidate keywords: skills + roles + industries
-  2. Compare with job keywords: job title + company + skills + industries
-  3. Return jobs that match at least one keyword
-* This ensures **explainable matches** without AI/ML.
+* Rule-based, keyword matching using candidate's skills, roles, industries against job title, company, skills, industries.
+* Returns jobs that match at least one keyword.
 
 ---
 
 ## Assumptions & Limitations
 
-* Currently supports scraping from **WeWorkRemotely** only. Other platforms can be added by implementing their parsing logic.
-* Matching is **keyword-based**, no ranking by priority yet.
-* Experience and location preferences are not fully considered in matching.
-* Job type (Full-time/Contract) can be extended for better matching.
-
----
-
-## Optional Enhancements (Future Work)
-
-* Scoring jobs based on **skill overlap percentage**
-* Filtering by **location, experience, or job type**
-* Ranking recommended jobs
-* Adding **frontend dashboard** for admin and candidate view
+* Currently supports scraping from **WeWorkRemotely** only.
+* Keyword-based matching; experience and location filters not fully applied.
+* Job type and ranking can be enhanced.
 
 ---
 
